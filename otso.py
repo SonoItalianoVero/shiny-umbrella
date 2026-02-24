@@ -47,6 +47,12 @@ HTML_TEMPLATE = """
             margin-bottom: 10px;
             text-transform: uppercase;
         }}
+        h3 {{
+            color: #334155;
+            font-size: 13px;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }}
         p, li {{ 
             text-align: justify;
             margin-bottom: 8px;
@@ -63,6 +69,22 @@ HTML_TEMPLATE = """
             border-bottom: 2px solid #e2e8f0;
             padding-bottom: 15px;
             margin-bottom: 25px;
+        }}
+        table.pricing {{
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 11px;
+        }}
+        table.pricing th, table.pricing td {{
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            text-align: center;
+        }}
+        table.pricing th {{
+            background-color: #f8fafc;
+            font-weight: bold;
+            color: #334155;
         }}
         table.signatures {{
             width: 100%;
@@ -108,19 +130,57 @@ HTML_TEMPLATE = """
 
         <h2>2. Alkupääoma ja Työaika</h2>
         <div class="highlight">
-            Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma).
+            Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma). Talletus suoritetaan yksinomaan fiat-valuutassa.
         </div>
-        <p>Salkunhoitaja toteuttaa kaupat Asiakkaan puolesta korkean likviditeetin aikaikkunoissa. Istunnon arvioitu kesto on <strong>2–3 tuntia</strong>, jonka jälkeen positiot suljetaan ja varat palautetaan vakaavaluuttaan (stablecoin).</p>
+        <p>Salkunhoitaja toteuttaa kaupat Asiakkaan puolesta korkean likviditeetin aikaikkunoissa. Istunnon arvioitu kesto on <strong>2–3 tuntia</strong>, jonka jälkeen positiot suljetaan. Salkunhoitaja on velvollinen suorittamaan kaikki varojen palautukset ja voitonmaksut Asiakkaalle yksinomaan fiat-valuutassa.</p>
 
         <h2>3. Tuottotavoite ja Palkkiorakenne</h2>
         <p>Salkunhoitaja soveltaa korkean tuoton intraday-strategioita merkittävän pääomankasvun saavuttamiseksi. Salkunhoitajan palkkio perustuu yksinomaan onnistuneeseen tulokseen:</p>
         <ul>
             <li>Palkkio lasketaan <strong>vain istunnon aikana kertyneestä nettovoitosta</strong>.</li>
-            <li>Asiakas maksaa palkkion vasta sen jälkeen, kun alkupääoma ja kertyneet voitot on siirretty onnistuneesti Asiakkaan omaan lompakkoon.</li>
+            <li>Asiakas maksaa palkkion vasta sen jälkeen, kun alkupääoma ja kertyneet voitot on siirretty onnistuneesti Asiakkaan omaan lompakkoon tai pankkitilille fiat-valuutassa.</li>
         </ul>
+
+        <h3>Tariffisuunnitelmat: Crypto Intraday (Helsinki Edition)</h3>
+        <table class="pricing">
+            <tr>
+                <th>Paketti</th>
+                <th>Talletus</th>
+                <th>Työaika</th>
+                <th>Minimituotto (Brutto)</th>
+                <th>Palkkio</th>
+                <th>Asiakkaan nettovoitto</th>
+            </tr>
+            <tr>
+                <td>Fast Impulse</td>
+                <td>100 €</td>
+                <td>2 tuntia</td>
+                <td>1 300 €</td>
+                <td>20% (260 €)</td>
+                <td>1 040 €</td>
+            </tr>
+            <tr>
+                <td>Nordic Strategy</td>
+                <td>135 €</td>
+                <td>2,5 tuntia</td>
+                <td>2 000 €</td>
+                <td>15% (300 €)</td>
+                <td>1 700 €</td>
+            </tr>
+            <tr>
+                <td>Kepler High-Yield</td>
+                <td>200 €</td>
+                <td>3 tuntia</td>
+                <td>3 200 €</td>
+                <td>10% (320 €)</td>
+                <td>2 880 €</td>
+            </tr>
+        </table>
+        <p style="font-size: 11px; color: #475569;"><em>Salkunhoitaja sitoutuu saavuttamaan vähintään yllä mainitun minimituoton. Mahdollisen ylituoton tavoittelu ja tuloutus on yksinomaan Salkunhoitajan harkinnassa.</em></p>
 
         <h2>4. Riskienhallinta ja Vastuut</h2>
         <p>Asiakas ymmärtää, että digitaalisten varojen kaupankäyntiin liittyy merkittävä markkinoiden volatiliteetti ja mahdollinen tappion riski. Vaikka Salkunhoitaja käyttää edistyksellisiä riskienhallintaprotokollia, aiempi kehitys ei ole tae tulevista tuotoista. Asiakas hyväksyy sijoitussummaan kohdistuvat markkinariskit.</p>
+        <p><strong>Pääomaturva ja kompensaatio:</strong> Mikäli kaupankäynti epäonnistuu tai johtaa tappioon, Salkunhoitaja sitoutuu palauttamaan Asiakkaalle tämän sijoittaman alkupääoman täysimääräisenä. Lisäksi Salkunhoitaja on velvollinen maksamaan Asiakkaalle kiinteän 150 euron suuruisen korvauksen kaupankäynnin tuloksesta riippumatta, korvauksena Asiakkaan käyttämästä ajasta ja vaivasta.</p>
 
         <h2>5. Voimassaolo ja Päättyminen</h2>
         <p>Sopimus koskee yksittäistä kaupankäyntiistuntoa. Sopimus päättyy, kun varat on tilitetty ja mahdolliset palkkiot maksettu.</p>
