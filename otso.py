@@ -41,7 +41,7 @@ HTML_TEMPLATE = """
             margin-bottom: 5px;
         }}
         h2 {{ 
-            color: #1e293b; 
+            color: #1e293b;
             font-size: 14px; 
             margin-top: 25px; 
             margin-bottom: 10px;
@@ -90,20 +90,21 @@ HTML_TEMPLATE = """
             width: 100%;
             margin-top: 50px;
         }}
-        td {{ vertical-align: top; }}
+        td {{ vertical-align: top;
+        }}
         .signature-line {{
             border-bottom: 1px solid #000;
             width: 80%;
-            margin-top: 40px;
+            margin-top: 5px;
             margin-bottom: 5px;
         }}
         .footer {{ 
-            margin-top: 50px; 
+            margin-top: 50px;
             font-size: 10px; 
             color: #94a3b8; 
             text-align: center; 
             border-top: 1px solid #e2e8f0; 
-            padding-top: 15px; 
+            padding-top: 15px;
         }}
     </style>
 </head>
@@ -182,7 +183,10 @@ HTML_TEMPLATE = """
         <p>Asiakas ymmärtää, että digitaalisten varojen kaupankäyntiin liittyy merkittävä markkinoiden volatiliteetti ja mahdollinen tappion riski. Vaikka Salkunhoitaja käyttää edistyksellisiä riskienhallintaprotokollia, aiempi kehitys ei ole tae tulevista tuotoista. Asiakas hyväksyy sijoitussummaan kohdistuvat markkinariskit.</p>
         <p><strong>Pääomaturva ja kompensaatio:</strong> Mikäli kaupankäynti epäonnistuu tai johtaa tappioon, Salkunhoitaja sitoutuu palauttamaan Asiakkaalle tämän sijoittaman alkupääoman täysimääräisenä. Lisäksi Salkunhoitaja on velvollinen maksamaan Asiakkaalle kiinteän 150 euron suuruisen korvauksen kaupankäynnin tuloksesta riippumatta, korvauksena Asiakkaan käyttämästä ajasta ja vaivasta.</p>
 
-        <h2>5. Voimassaolo ja Päättyminen</h2>
+        <h2>5. Kertaluonteinen Talletus ja Lisämaksujen Kielto</h2>
+        <p>Tämän sopimuksen mukainen sijoitus on ehdottomasti kertaluonteinen. Asiakas sitoutuu tekemään vain yhden (1) talletuksen valitun tariffisuunnitelman puitteissa, eikä Salkunhoitaja vaadi tai hyväksy mitään lisämaksuja käynnissä olevan kaupankäyntiistunnon aikana. Kaikki kaupankäynti toteutetaan yksinomaan alun perin siirretyn pääoman rajoissa. Mahdolliset uudet sijoitukset tai kaupankäyntiistunnot edellyttävät aina uuden, erillisen omaisuudenhoitosopimuksen laatimista.</p>
+
+        <h2>6. Voimassaolo ja Päättyminen</h2>
         <p>Sopimus koskee yksittäistä kaupankäyntiistuntoa. Sopimus päättyy, kun varat on tilitetty ja mahdolliset palkkiot maksettu.</p>
     </div>
 
@@ -190,13 +194,17 @@ HTML_TEMPLATE = """
         <tr>
             <td width="50%">
                 <strong>Salkunhoitaja:</strong>
+                <div style="margin-top: 15px; margin-bottom: -10px; height: 50px;">
+                    <img src="sign.png" height="50" />
+                </div>
                 <div class="signature-line"></div>
                 <strong>Otso Laine</strong><br>
                 <span style="font-size: 11px; color: #475569;">Senior Analyst @ Kepler Cheuvreux<br>Digital Asset Management</span>
             </td>
             <td width="50%">
+                <div style="margin-top: 25px;"></div>
                 <strong>Asiakas:</strong>
-                <div class="signature-line"></div>
+                <div class="signature-line" style="margin-top: 40px;"></div>
                 <strong>{client_name}</strong><br>
                 <span style="font-size: 11px; color: #475569;">Yksityissijoittaja</span>
             </td>
