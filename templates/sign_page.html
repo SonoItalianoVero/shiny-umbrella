@@ -6,87 +6,68 @@
     <title>Allekirjoita Sopimus</title>
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
-        body { font-family: -apple-system, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #1e293b; }
+        /* Базовые стили */
+        body { font-family: -apple-system, Helvetica, Arial, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #1e293b; font-size: 14px; line-height: 1.6; }
         .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .contract-text { font-size: 14px; line-height: 1.6; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; }
-        h1 { font-size: 20px; color: #0f172a; text-align: center; }
-        .signature-section { text-align: center; }
-        .signature-wrapper { 
-            border: 2px dashed #cbd5e1; 
-            border-radius: 8px; 
-            background: #fff; 
-            margin: 20px 0;
-            touch-action: none; 
+        .contract-text { border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; text-align: justify; }
+        
+        /* Стили из PDF (Таблицы, заголовки, синяя рамка) */
+        h1 { display: none; }
+        h2 { color: #0f172a; font-size: 20px; margin-bottom: 5px; margin-top: 0; }
+        h3 { color: #1e293b; font-size: 16px; margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; }
+        h4 { color: #334155; font-size: 14px; margin-top: 15px; margin-bottom: 5px; }
+        .highlight { background-color: #f1f5f9; padding: 12px; border-left: 3px solid #3b82f6; margin: 15px 0; font-weight: bold; }
+        table.header { width: 100%; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 25px; }
+        table.pricing { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 12px; }
+        table.pricing th, table.pricing td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
+        table.pricing th { background-color: #f8fafc; font-weight: bold; color: #334155; }
+        
+        /* Адаптация таблиц под мобильные телефоны */
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            table.pricing { font-size: 10px; }
         }
+
+        /* Стили для блока подписи */
+        .signature-section { text-align: center; margin-top: 30px; }
+        .signature-wrapper { border: 2px dashed #cbd5e1; border-radius: 8px; background: #fff; margin: 20px 0; touch-action: none; }
         canvas { width: 100%; height: 200px; }
         .buttons { display: flex; gap: 10px; justify-content: center; }
-        button { padding: 12px 24px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button { padding: 12px 24px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 14px; }
         .btn-clear { background: #e2e8f0; color: #475569; }
         .btn-save { background: #2563eb; color: white; }
         .btn-save:hover { background: #1d4ed8; }
         .hidden { display: none !important; }
         #status { margin-top: 20px; font-weight: bold; color: #059669; }
 
-        /* Modaalisen ikkunan tyylit */
+        /* Всплывающее окно (Модалка) */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(4px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7); display: flex; justify-content: center; align-items: center;
+            z-index: 1000; backdrop-filter: blur(4px);
         }
         .modal-content {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 12px;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            margin: 20px;
+            background: white; padding: 40px 30px; border-radius: 12px; max-width: 400px; text-align: center;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); margin: 20px;
         }
-        .modal-content h2 {
-            color: #059669;
-            margin-top: 0;
-            font-size: 22px;
-        }
-        .modal-content p {
-            color: #475569;
-            font-size: 15px;
-            line-height: 1.6;
-            margin: 20px 0 30px 0;
-        }
+        .modal-content h2 { color: #059669; margin-top: 0; font-size: 22px; }
+        .modal-content p { color: #475569; font-size: 15px; line-height: 1.6; margin: 20px 0 30px 0; }
         .btn-telegram {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 14px;
-            background: #2481cc; 
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: 0.2s;
-            box-sizing: border-box;
+            display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 14px;
+            background: #2481cc; color: white; text-decoration: none; border-radius: 8px; font-weight: 600;
+            font-size: 16px; transition: 0.2s; box-sizing: border-box;
         }
-        .btn-telegram:hover {
-            background: #1d69a6;
-        }
+        .btn-telegram:hover { background: #1d69a6; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>OMAISUUDENHOITOSOPIMUS</h1>
         <div class="contract-text">
             {{ contract_content | safe }}
         </div>
 
         <div class="signature-section" id="signing-area">
-            <p><strong>Allekirjoita tästä:</strong></p>
+            <p style="font-size: 16px; color: #0f172a;"><strong>Allekirjoita tästä:</strong></p>
             <div class="signature-wrapper">
                 <canvas id="signature-pad"></canvas>
             </div>
