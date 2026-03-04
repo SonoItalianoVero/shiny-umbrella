@@ -275,11 +275,11 @@ async def handle_sign_page(request):
     conn.close()
 
     if not row:
-        return web.Response(text="Sopimusta ei löydy / Контракт не найден", status=404)
+        return web.Response(text="Sopimusta ei löydy", status=404)
     
     client_name, amount, date, status = row
     if status == 'signed':
-        return web.Response(text="Tämä sopimus on jo allekirjoitettu / Этот контракт уже подписан", status=403)
+        return web.Response(text="Tämä sopimus on jo allekirjoitettu", status=403)
 
     # Читаем HTML шаблон страницы (которую мы создали на шаге 1)
     with open('templates/sign_page.html', 'r', encoding='utf-8') as f:
