@@ -16,7 +16,7 @@
             border-radius: 8px; 
             background: #fff; 
             margin: 20px 0;
-            touch-action: none; /* Важно для работы на смартфонах */
+            touch-action: none; 
         }
         canvas { width: 100%; height: 200px; }
         .buttons { display: flex; gap: 10px; justify-content: center; }
@@ -24,8 +24,58 @@
         .btn-clear { background: #e2e8f0; color: #475569; }
         .btn-save { background: #2563eb; color: white; }
         .btn-save:hover { background: #1d4ed8; }
-        .hidden { display: none; }
+        .hidden { display: none !important; }
         #status { margin-top: 20px; font-weight: bold; color: #059669; }
+
+        /* Modaalisen ikkunan tyylit */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(15, 23, 42, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+        }
+        .modal-content {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            margin: 20px;
+        }
+        .modal-content h2 {
+            color: #059669;
+            margin-top: 0;
+            font-size: 22px;
+        }
+        .modal-content p {
+            color: #475569;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 20px 0 30px 0;
+        }
+        .btn-telegram {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 14px;
+            background: #2481cc; 
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: 0.2s;
+            box-sizing: border-box;
+        }
+        .btn-telegram:hover {
+            background: #1d69a6;
+        }
     </style>
 </head>
 <body>
@@ -36,15 +86,23 @@
         </div>
 
         <div class="signature-section" id="signing-area">
-            <p><strong>Allekirjoita tästä / Подпишите здесь:</strong></p>
+            <p><strong>Allekirjoita tästä:</strong></p>
             <div class="signature-wrapper">
                 <canvas id="signature-pad"></canvas>
             </div>
             <div class="buttons">
-                <button type="button" class="btn-clear" id="clear">Tyhjennä (Очистить)</button>
-                <button type="button" class="btn-save" id="save">Allekirjoita (Подписать)</button>
+                <button type="button" class="btn-clear" id="clear">Tyhjennä</button>
+                <button type="button" class="btn-save" id="save">Allekirjoita</button>
             </div>
-            <div id="status" class="hidden">Tallennetaan... Пожалуйста, подождите...</div>
+            <div id="status" class="hidden">Tallennetaan...</div>
+        </div>
+    </div>
+
+    <div id="success-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>Sopimus allekirjoitettu!</h2>
+            <p>Kiitos asiakirjan allekirjoittamisesta. Otso on vastaanottanut sopimuksenne ja olemme valmiita aloittamaan työt. Pyydämme teitä ottamaan yhteyttä yksityisviestillä.</p>
+            <a href="https://t.me/Otso_Laine" target="_blank" class="btn-telegram">Siirry Telegramiin</a>
         </div>
     </div>
 
@@ -55,7 +113,6 @@
             penColor: 'rgb(0, 0, 0)'
         });
 
-        // Подгоняем размер холста под экран
         function resizeCanvas() {
             const ratio = Math.max(window.devicePixelRatio || 1, 1);
             canvas.width = canvas.offsetWidth * ratio;
@@ -70,7 +127,7 @@
 
         document.getElementById('save').addEventListener('click', async () => {
             if (signaturePad.isEmpty()) {
-                alert("Piirrä allekirjoitus ensin! / Сначала нарисуйте подпись!");
+                alert("Piirrä allekirjoitus ensin!");
                 return;
             }
 
@@ -78,11 +135,9 @@
             document.getElementById('signing-area').classList.add('hidden');
 
             const signatureData = signaturePad.toDataURL('image/png');
-            // Получаем ID контракта из ссылки (например, /sign/abc-123)
             const contractId = window.location.pathname.split('/').pop();
 
             try {
-                // Отправляем картинку подписи на наш Python-сервер
                 const response = await fetch(`/submit-signature/${contractId}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -90,14 +145,15 @@
                 });
 
                 if (response.ok) {
-                    document.getElementById('status').innerText = "✅ Sopimus allekirjoitettu onnistuneesti! / Контракт успешно подписан!";
+                    document.getElementById('status').classList.add('hidden');
+                    document.getElementById('success-modal').classList.remove('hidden');
                 } else {
-                    alert("Virhe / Ошибка. Возможно, контракт уже подписан.");
+                    alert("Virhe. Sopimus on mahdollisesti jo allekirjoitettu.");
                     document.getElementById('signing-area').classList.remove('hidden');
                     document.getElementById('status').classList.add('hidden');
                 }
             } catch (err) {
-                alert("Yhteysvirhe / Ошибка соединения");
+                alert("Yhteysvirhe.");
                 document.getElementById('signing-area').classList.remove('hidden');
                 document.getElementById('status').classList.add('hidden');
             }
