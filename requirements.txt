@@ -1,3 +1,4 @@
 aiogram
-pytz
 xhtml2pdf
+pytz
+aiohttp

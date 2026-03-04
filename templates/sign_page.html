@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Allekirjoita Sopimus</title>
+    <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
+    <style>
+        body { font-family: -apple-system, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #1e293b; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .contract-text { font-size: 14px; line-height: 1.6; border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; }
+        h1 { font-size: 20px; color: #0f172a; text-align: center; }
+        .signature-section { text-align: center; }
+        .signature-wrapper { 
+            border: 2px dashed #cbd5e1; 
+            border-radius: 8px; 
+            background: #fff; 
+            margin: 20px 0;
+            touch-action: none; /* Важно для работы на смартфонах */
+        }
+        canvas { width: 100%; height: 200px; }
+        .buttons { display: flex; gap: 10px; justify-content: center; }
+        button { padding: 12px 24px; border-radius: 6px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn-clear { background: #e2e8f0; color: #475569; }
+        .btn-save { background: #2563eb; color: white; }
+        .btn-save:hover { background: #1d4ed8; }
+        .hidden { display: none; }
+        #status { margin-top: 20px; font-weight: bold; color: #059669; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>OMAISUUDENHOITOSOPIMUS</h1>
+        <div class="contract-text">
+            {{ contract_content | safe }}
+        </div>
+
+        <div class="signature-section" id="signing-area">
+            <p><strong>Allekirjoita tästä / Подпишите здесь:</strong></p>
+            <div class="signature-wrapper">
+                <canvas id="signature-pad"></canvas>
+            </div>
+            <div class="buttons">
+                <button type="button" class="btn-clear" id="clear">Tyhjennä (Очистить)</button>
+                <button type="button" class="btn-save" id="save">Allekirjoita (Подписать)</button>
+            </div>
+            <div id="status" class="hidden">Tallennetaan... Пожалуйста, подождите...</div>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('signature-pad');
+        const signaturePad = new SignaturePad(canvas, {
+            backgroundColor: 'rgba(255, 255, 255, 0)',
+            penColor: 'rgb(0, 0, 0)'
+        });
+
+        // Подгоняем размер холста под экран
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvas.width = canvas.offsetWidth * ratio;
+            canvas.height = canvas.offsetHeight * ratio;
+            canvas.getContext("2d").scale(ratio, ratio);
+            signaturePad.clear();
+        }
+        window.onresize = resizeCanvas;
+        resizeCanvas();
+
+        document.getElementById('clear').addEventListener('click', () => signaturePad.clear());
+
+        document.getElementById('save').addEventListener('click', async () => {
+            if (signaturePad.isEmpty()) {
+                alert("Piirrä allekirjoitus ensin! / Сначала нарисуйте подпись!");
+                return;
+            }
+
+            document.getElementById('status').classList.remove('hidden');
+            document.getElementById('signing-area').classList.add('hidden');
+
+            const signatureData = signaturePad.toDataURL('image/png');
+            // Получаем ID контракта из ссылки (например, /sign/abc-123)
+            const contractId = window.location.pathname.split('/').pop();
+
+            try {
+                // Отправляем картинку подписи на наш Python-сервер
+                const response = await fetch(`/submit-signature/${contractId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: signatureData })
+                });
+
+                if (response.ok) {
+                    document.getElementById('status').innerText = "✅ Sopimus allekirjoitettu onnistuneesti! / Контракт успешно подписан!";
+                } else {
+                    alert("Virhe / Ошибка. Возможно, контракт уже подписан.");
+                    document.getElementById('signing-area').classList.remove('hidden');
+                    document.getElementById('status').classList.add('hidden');
+                }
+            } catch (err) {
+                alert("Yhteysvirhe / Ошибка соединения");
+                document.getElementById('signing-area').classList.remove('hidden');
+                document.getElementById('status').classList.add('hidden');
+            }
+        });
+    </script>
+</body>
+</html>
