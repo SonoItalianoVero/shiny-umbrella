@@ -19,7 +19,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 # Railway автоматически выдает порт для веб-сервера
 PORT = int(os.getenv("PORT", 8080))
 # Домен вашего сайта (зададим переменную в Railway, или Railway сам её подставит)
-DOMAIN = os.getenv("RAILWAY_PUBLIC_DOMAIN", "your-app-domain.railway.app")
+BASE_URL = os.getenv("CUSTOM_DOMAIN", "https://sign.otso.life")
 
 if not BOT_TOKEN:
     raise ValueError("ОШИБКА: BOT_TOKEN не найден в переменных окружения!")
@@ -137,13 +137,9 @@ PDF_HTML_TEMPLATE = """
         body {{ font-family: Helvetica, Arial, sans-serif; color: #1e293b; line-height: 1.5; font-size: 13px; }}
         h1 {{ color: #0f172a; font-size: 20px; margin-bottom: 5px; }}
         h2 {{ color: #1e293b; font-size: 14px; margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; }}
-        h3 {{ color: #334155; font-size: 13px; margin-top: 15px; margin-bottom: 5px; }}
         p, li {{ text-align: justify; margin-bottom: 8px; }}
         .highlight {{ background-color: #f1f5f9; padding: 12px; border-left: 3px solid #3b82f6; margin: 15px 0; font-weight: bold; }}
         table.header {{ width: 100%; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 25px; }}
-        table.pricing {{ width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 11px; }}
-        table.pricing th, table.pricing td {{ border: 1px solid #cbd5e1; padding: 8px; text-align: center; }}
-        table.pricing th {{ background-color: #f8fafc; font-weight: bold; color: #334155; }}
         table.signatures {{ width: 100%; margin-top: 50px; }}
         td {{ vertical-align: top; }}
         .signature-line {{ border-bottom: 1px solid #000; width: 80%; margin-top: 5px; margin-bottom: 5px; }}
@@ -155,33 +151,41 @@ PDF_HTML_TEMPLATE = """
         <tr>
             <td width="60%">
                 <h1>OMAISUUDENHOITOSOPIMUS</h1>
-                <p style="color: #64748b; font-size: 12px; margin-top: 0;">Digitaalisten varojen hallinta (Intraday)</p>
+                <p style="color: #64748b; font-size: 12px; margin-top: 0;">Digitaalisten varojen hallinta / Velkakirja</p>
             </td>
             <td width="40%" style="text-align: right; font-size: 12px; color: #475569;">
                 <p style="margin: 2px 0;">Sopimusnumero: <strong style="color: #000;">#2690497</strong></p>
                 <p style="margin: 2px 0;">Päivämäärä: <strong style="color: #000;">{date}</strong></p>
-                <p style="margin: 2px 0;">Paikka: <strong style="color: #000;">Helsinki, Suomi</strong></p>
             </td>
         </tr>
     </table>
 
     <div class="content">
-        <p>Tämä omaisuudenhoitosopimus ("Sopimus") on solmittu <strong>{date}</strong>, ja sen osapuolina ovat Otso Laine (jäljempänä "Salkunhoitaja") ja <strong>{client_name}</strong> (jäljempänä "Asiakas").</p>
-        <h2>1. Sopimuksen Tarkoitus</h2>
-        <p>Asiakas valtuuttaa Salkunhoitajan tarjoamaan päiväkaupan (intraday) ja digitaalisten varojen hallintapalveluita. Salkunhoitaja hyödyntää patentoituja algoritmisia ja makrotaloudellisia strategioita Asiakkaan osoittaman pääoman hallinnoinnissa.</p>
-        <h2>2. Alkupääoma ja Työaika</h2>
+        <h2>1. Sopimusosapuolet</h2>
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; margin-bottom: 20px;">
+            <tr>
+                <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
+                    <strong>Salkunhoitaja:</strong><br><br>
+                    Nimi: Otso Ilmari Laine<br>
+                    Henkilötunnus: 160790-1512<br>
+                    Osoite: Hirviniementie 10, 02160 Espoo
+                </td>
+                <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
+                    <strong>Asiakas:</strong><br><br>
+                    Nimi: <strong>{client_name}</strong><br>
+                    Henkilötunnus: {client_id}<br>   Osoite: {client_address}         </td>
+            </tr>
+        </table>
+
+        <h2>2. Sopimuksen Tarkoitus ja Työaika</h2>
+        <p>Asiakas valtuuttaa Salkunhoitajan tarjoamaan päiväkaupan palveluita.</p>
         <div class="highlight">
-            Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma). Talletus suoritetaan yksinomaan fiat-valuutassa.
+            Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma).
         </div>
-        <p>Salkunhoitaja toteuttaa kaupat Asiakkaan puolesta korkean likviditeetin aikaikkunoissa. Istunnon arvioitu kesto on <strong>2–3 tuntia</strong>.</p>
-        <h2>3. Tuottotavoite ja Palkkiorakenne</h2>
-        <p>Salkunhoitajan palkkio perustuu yksinomaan onnistuneeseen tulokseen vain istunnon aikana kertyneestä nettovoitosta.</p>
-        <h2>4. Riskienhallinta ja Vastuut</h2>
-        <p>Pääomaturva ja kompensaatio: Mikäli kaupankäynti epäonnistuu tai johtaa tappioon, Salkunhoitaja sitoutuu palauttamaan Asiakkaalle tämän sijoittaman alkupääoman täysimääräisenä. Lisäksi Salkunhoitaja on velvollinen maksamaan Asiakkaalle kiinteän 150 euron suuruisen korvauksen.</p>
-        <h2>5. Kertaluonteinen Talletus ja Lisämaksujen Kielto</h2>
-        <p>Tämän sopimuksen mukainen sijoitus on ehdottomasti kertaluonteinen. Asiakas sitoutuu tekemään vain yhden (1) talletuksen valitun tariffisuunnitelman puitteissa, eikä Salkunhoitaja vaadi tai hyväksy mitään lisämaksuja käynnissä olevan kaupankäyntiistunnon aikana. Kaikki kaupankäynti toteutetaan yksinomaan alun perin siirretyn pääoman rajoissa.</p>
-        <h2>6. Voimassaolo ja Päättyminen</h2>
-        <p>Sopimus koskee yksittäistä kaupankäyntiistuntoa. Sopimus päättyy, kun varat on tilitetty ja mahdolliset palkkiot maksettu.</p>
+        
+        <h2>3. Palkkiorakenne ja Pääomaturva</h2>
+        <p>Palkkio lasketaan vain istunnon aikana kertyneestä nettovoitosta. <strong>Pääomaturva:</strong> Mikäli kaupankäynti epäonnistuu, Salkunhoitaja sitoutuu palauttamaan {amount} € alkupääoman täysimääräisenä.</p>
+
     </div>
 
     <table class="signatures">
@@ -192,8 +196,8 @@ PDF_HTML_TEMPLATE = """
                     <img src="sign.png" height="50" />
                 </div>
                 <div class="signature-line"></div>
-                <strong>Otso Laine</strong><br>
-                <span style="font-size: 11px; color: #475569;">Senior Analyst @ Kepler Cheuvreux<br>Digital Asset Management</span>
+                <strong>Otso Ilmari Laine</strong><br>
+                <span style="font-size: 11px; color: #475569;">Itsenäinen Salkunhoitaja<br>Digital Asset Management</span>
             </td>
             <td width="50%">
                 <strong>Asiakas:</strong>
@@ -206,10 +210,6 @@ PDF_HTML_TEMPLATE = """
             </td>
         </tr>
     </table>
-
-    <div class="footer">
-        Ehdottoman luottamuksellinen. Asiakirja on laadittu digitaalisen varainhoidon läpinäkyvyyden periaatteita noudattaen.
-    </div>
 </body>
 </html>
 """
@@ -255,7 +255,7 @@ async def create_contract(message: types.Message, command: CommandObject):
     conn.close()
 
     # Формируем ссылку для клиента
-    link = f"https://{DOMAIN}/sign/{contract_id}"
+    link = f"https://{BASE_URL}/sign/{contract_id}"
     
     await message.answer(
         f"✅ <b>Договор сформирован!</b>\n\n👤 Клиент: {client_name}\n💶 Сумма: €{amount}\n\n"
@@ -296,7 +296,10 @@ async def handle_sign_page(request):
 async def handle_submit_signature(request):
     contract_id = request.match_info.get('id', '')
     data = await request.json()
-    signature_base64 = data.get('image') # Получаем картинку с подписью
+    
+    signature_base64 = data.get('image') 
+    client_id_val = data.get('client_id', 'Ei ilmoitettu') # Ловим ID
+    client_address_val = data.get('client_address', 'Ei ilmoitettu') # Ловим Адрес
     
     conn = sqlite3.connect('contracts.db')
     c = conn.cursor()
@@ -319,7 +322,9 @@ async def handle_submit_signature(request):
         date=date,
         client_name=client_name,
         amount=amount,
-        client_signature=signature_base64 # Вставляем подпись клиента (base64) напрямую
+        client_signature=signature_base64,
+        client_id=client_id_val,
+        client_address=client_address_val
     )
 
     pdf_bytes = generate_pdf(final_html)
