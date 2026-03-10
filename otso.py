@@ -133,17 +133,20 @@ PDF_HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <style>
-        @page {{ size: A4; margin: 2cm; }}
-        body {{ font-family: Helvetica, Arial, sans-serif; color: #1e293b; line-height: 1.5; font-size: 13px; }}
-        h1 {{ color: #0f172a; font-size: 20px; margin-bottom: 5px; }}
-        h2 {{ color: #1e293b; font-size: 14px; margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; }}
-        p, li {{ text-align: justify; margin-bottom: 8px; }}
-        .highlight {{ background-color: #f1f5f9; padding: 12px; border-left: 3px solid #3b82f6; margin: 15px 0; font-weight: bold; }}
-        table.header {{ width: 100%; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 25px; }}
-        table.signatures {{ width: 100%; margin-top: 50px; }}
+        @page {{ size: A4; margin: 1.5cm; }}
+        body {{ font-family: Helvetica, Arial, sans-serif; color: #1e293b; line-height: 1.4; font-size: 11px; }}
+        h1 {{ color: #0f172a; font-size: 16px; margin-bottom: 5px; }}
+        h2 {{ color: #1e293b; font-size: 14px; margin-top: 15px; margin-bottom: 5px; text-transform: uppercase; }}
+        h3 {{ color: #1e293b; font-size: 12px; margin-top: 15px; margin-bottom: 5px; }}
+        p, li {{ text-align: justify; margin-bottom: 5px; }}
+        .highlight {{ background-color: #f1f5f9; padding: 10px; border-left: 3px solid #3b82f6; margin: 10px 0; font-weight: bold; }}
+        table.header {{ width: 100%; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 15px; }}
+        table.pricing {{ width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 10px; }}
+        table.pricing th, table.pricing td {{ border: 1px solid #cbd5e1; padding: 5px; text-align: center; }}
+        table.pricing th {{ background-color: #f8fafc; font-weight: bold; }}
+        table.signatures {{ width: 100%; margin-top: 30px; page-break-inside: avoid; }}
         td {{ vertical-align: top; }}
         .signature-line {{ border-bottom: 1px solid #000; width: 80%; margin-top: 5px; margin-bottom: 5px; }}
-        .footer {{ margin-top: 50px; font-size: 10px; color: #94a3b8; text-align: center; border-top: 1px solid #e2e8f0; padding-top: 15px; }}
     </style>
 </head>
 <body>
@@ -151,18 +154,21 @@ PDF_HTML_TEMPLATE = """
         <tr>
             <td width="60%">
                 <h1>OMAISUUDENHOITOSOPIMUS</h1>
-                <p style="color: #64748b; font-size: 12px; margin-top: 0;">Digitaalisten varojen hallinta / Velkakirja</p>
+                <p style="color: #64748b; font-size: 11px; margin-top: 0;">Digitaalisten varojen hallinta (Intraday)</p>
             </td>
-            <td width="40%" style="text-align: right; font-size: 12px; color: #475569;">
+            <td width="40%" style="text-align: right; font-size: 11px; color: #475569;">
                 <p style="margin: 2px 0;">Sopimusnumero: <strong style="color: #000;">#2690497</strong></p>
                 <p style="margin: 2px 0;">Päivämäärä: <strong style="color: #000;">{date}</strong></p>
+                <p style="margin: 2px 0;">Paikka: <strong style="color: #000;">Helsinki, Suomi</strong></p>
             </td>
         </tr>
     </table>
 
     <div class="content">
+        <p>Tämä omaisuudenhoitosopimus ("Sopimus") on solmittu <strong>{date}</strong>, ja sen osapuolina ovat:</p>
+
         <h2>1. Sopimusosapuolet</h2>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; margin-bottom: 20px;">
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; margin-bottom: 15px;">
             <tr>
                 <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
                     <strong>Salkunhoitaja:</strong><br><br>
@@ -173,19 +179,72 @@ PDF_HTML_TEMPLATE = """
                 <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
                     <strong>Asiakas:</strong><br><br>
                     Nimi: <strong>{client_name}</strong><br>
-                    Henkilötunnus: {client_id}<br>   Osoite: {client_address}         </td>
+                    Henkilötunnus: {client_id}<br>
+                    Osoite: {client_address}
+                </td>
             </tr>
         </table>
 
-        <h2>2. Sopimuksen Tarkoitus ja Työaika</h2>
-        <p>Asiakas valtuuttaa Salkunhoitajan tarjoamaan päiväkaupan palveluita.</p>
-        <div class="highlight">
-            Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma).
-        </div>
-        
-        <h2>3. Palkkiorakenne ja Pääomaturva</h2>
-        <p>Palkkio lasketaan vain istunnon aikana kertyneestä nettovoitosta. <strong>Pääomaturva:</strong> Mikäli kaupankäynti epäonnistuu, Salkunhoitaja sitoutuu palauttamaan {amount} € alkupääoman täysimääräisenä.</p>
+        <h2>2. Sopimuksen Tarkoitus</h2>
+        <p>Asiakas valtuuttaa Salkunhoitajan tarjoamaan päiväkaupan (intraday) ja digitaalisten varojen hallintapalveluita. Salkunhoitaja hyödyntää patentoituja algoritmisia ja makrotaloudellisia strategioita Asiakkaan osoittaman pääoman hallinnoinnissa.</p>
 
+        <h2>3. Alkupääoma ja Työaika</h2>
+        <div class="highlight">
+            Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma). Talletus suoritetaan yksinomaan fiat-valuutassa.
+        </div>
+        <p>Salkunhoitaja toteuttaa kaupat Asiakkaan puolesta korkean likviditeetin aikaikkunoissa. Istunnon arvioitu kesto on <strong>2–3 tuntia</strong>, jonka jälkeen positiot suljetaan. Salkunhoitaja on velvollinen suorittamaan kaikki varojen palautukset ja voitonmaksut Asiakkaalle yksinomaan fiat-valuutassa.</p>
+
+        <h2>4. Tuottotavoite ja Palkkiorakenne</h2>
+        <p>Salkunhoitaja soveltaa korkean tuoton intraday-strategioita merkittävän pääomankasvun saavuttamiseksi. Salkunhoitajan palkkio perustuu yksinomaan onnistuneeseen tulokseen:</p>
+        <ul>
+            <li>Palkkio lasketaan <strong>vain istunnon aikana kertyneestä nettovoitosta</strong>.</li>
+            <li>Asiakas maksaa palkkion vasta sen jälkeen, kun alkupääoma ja kertyneet voitot on siirretty onnistuneesti Asiakkaan omaan lompakkoon tai pankkitilille fiat-valuutassa.</li>
+        </ul>
+
+        <table class="pricing">
+            <tr>
+                <th>Paketti</th>
+                <th>Talletus</th>
+                <th>Työaika</th>
+                <th>Minimituotto (Brutto)</th>
+                <th>Palkkio</th>
+                <th>Asiakkaan nettovoitto</th>
+            </tr>
+            <tr>
+                <td>Fast Impulse</td>
+                <td>100 €</td>
+                <td>2 tuntia</td>
+                <td>1 300 €</td>
+                <td>20% (260 €)</td>
+                <td>1 040 €</td>
+            </tr>
+            <tr>
+                <td>Nordic Strategy</td>
+                <td>135 €</td>
+                <td>2,5 tuntia</td>
+                <td>2 000 €</td>
+                <td>15% (300 €)</td>
+                <td>1 700 €</td>
+            </tr>
+            <tr>
+                <td>Kepler High-Yield</td>
+                <td>200 €</td>
+                <td>3 tuntia</td>
+                <td>3 200 €</td>
+                <td>10% (320 €)</td>
+                <td>2 880 €</td>
+            </tr>
+        </table>
+
+        <h2>5. Riskienhallinta ja Vastuut</h2>
+        <p>Asiakas ymmärtää, että digitaalisten varojen kaupankäyntiin liittyy merkittävä markkinoiden volatiliteetti ja mahdollinen tappion riski. Vaikka Salkunhoitaja käyttää edistyksellisiä riskienhallintaprotokollia, aiempi kehitys ei ole tae tulevista tuotoista. Asiakas hyväksyy sijoitussummaan kohdistuvat markkinariskit.</p>
+        <p><strong>Pääomaturva ja kompensaatio:</strong> Mikäli kaupankäynti epäonnistuu tai johtaa tappioon, Salkunhoitaja sitoutuu palauttamaan Asiakkaan alkupääoman täysimääräisenä. Lisäksi Salkunhoitaja on velvollinen maksamaan Asiakkaalle kiinteän 150 euron suuruisen korvauksen kaupankäynnin tuloksesta riippumatta.</p>
+
+        <h2>6. Kertaluonteinen Talletus ja Lisämaksujen Kielto</h2>
+        <p>Tämän sopimuksen mukainen sijoitus on ehdottomasti kertaluonteinen. Asiakas sitoutuu tekemään vain yhden (1) talletuksen, eikä Salkunhoitaja vaadi lisämaksuja käynnissä olevan kaupankäyntiistunnon aikana.</p>
+
+        <h2>7. Voimassaolo ja Päättyminen</h2>
+        <p>Sopimus koskee yksittäistä kaupankäyntiistuntoa. Sopimus päättyy, kun varat on tilitetty ja mahdolliset palkkiot maksettu.</p>
     </div>
 
     <table class="signatures">
@@ -197,7 +256,7 @@ PDF_HTML_TEMPLATE = """
                 </div>
                 <div class="signature-line"></div>
                 <strong>Otso Ilmari Laine</strong><br>
-                <span style="font-size: 11px; color: #475569;">Itsenäinen Salkunhoitaja<br>Digital Asset Management</span>
+                <span style="font-size: 10px; color: #475569;">Itsenäinen Salkunhoitaja<br>Digital Asset Management</span>
             </td>
             <td width="50%">
                 <strong>Asiakas:</strong>
@@ -206,7 +265,7 @@ PDF_HTML_TEMPLATE = """
                 </div>
                 <div class="signature-line"></div>
                 <strong>{client_name}</strong><br>
-                <span style="font-size: 11px; color: #475569;">Yksityissijoittaja</span>
+                <span style="font-size: 10px; color: #475569;">Yksityissijoittaja</span>
             </td>
         </tr>
     </table>
