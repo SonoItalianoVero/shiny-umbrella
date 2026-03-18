@@ -173,12 +173,14 @@ PDF_HTML_TEMPLATE = """
                 <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
                     <strong>Salkunhoitaja:</strong><br><br>
                     Nimi: Otso Ilmari Laine<br>
+                    Syntymäaika: 16.07.1990<br>
                     Henkilötunnus: 160790-1512<br>
                     Osoite: Hirviniementie 10, 02160 Espoo
                 </td>
                 <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
                     <strong>Asiakas:</strong><br><br>
                     Nimi: <strong>{client_name}</strong><br>
+                    Syntymäaika: {client_dob}<br>
                     Henkilötunnus: {client_id}<br>
                     Osoite: {client_address}
                 </td>
@@ -357,6 +359,7 @@ async def handle_submit_signature(request):
     data = await request.json()
     
     signature_base64 = data.get('image') 
+    client_dob_val = data.get('client_dob', 'Ei ilmoitettu') # Ловим дату рождения
     client_id_val = data.get('client_id', 'Ei ilmoitettu') # Ловим ID
     client_address_val = data.get('client_address', 'Ei ilmoitettu') # Ловим Адрес
     
@@ -376,12 +379,13 @@ async def handle_submit_signature(request):
     conn.commit()
     conn.close()
 
-    # Формируем финальный PDF!
+    # Формируем финальный PDF! Передаем client_dob
     final_html = PDF_HTML_TEMPLATE.format(
         date=date,
         client_name=client_name,
         amount=amount,
         client_signature=signature_base64,
+        client_dob=client_dob_val,
         client_id=client_id_val,
         client_address=client_address_val
     )
