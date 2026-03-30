@@ -7,9 +7,9 @@
     <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.1.7/dist/signature_pad.umd.min.js"></script>
     <style>
         /* Базовые стили */
-        body { font-family: -apple-system, Helvetica, Arial, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #1e293b; font-size: 14px; line-height: 1.6; }
-        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
-        .contract-text { border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; text-align: justify; }
+        body { font-family: -apple-system, Helvetica, Arial, sans-serif; background: #f8fafc; margin: 0; padding: 20px; color: #1e293b; font-size: 14px; line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 40px; border-radius: 8px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); box-sizing: border-box; overflow: hidden; }
+        .contract-text { border-bottom: 1px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 30px; text-align: justify; overflow-wrap: anywhere; word-break: break-word; }
         
         /* Стили из PDF (Таблицы, заголовки, синяя рамка) */
         h1 { display: none; }
@@ -17,15 +17,35 @@
         h3 { color: #1e293b; font-size: 16px; margin-top: 25px; margin-bottom: 10px; text-transform: uppercase; }
         h4 { color: #334155; font-size: 14px; margin-top: 15px; margin-bottom: 5px; }
         .highlight { background-color: #f1f5f9; padding: 12px; border-left: 3px solid #3b82f6; margin: 15px 0; font-weight: bold; }
-        table.header { width: 100%; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 25px; }
+        table.header { width: 100%; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 25px; table-layout: fixed; }
         table.pricing { width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 12px; }
         table.pricing th, table.pricing td { border: 1px solid #cbd5e1; padding: 8px; text-align: center; }
         table.pricing th { background-color: #f8fafc; font-weight: bold; color: #334155; }
+        .contract-text table { max-width: 100%; }
         
         /* Адаптация таблиц под мобильные телефоны */
         @media (max-width: 600px) {
-            .container { padding: 20px; }
-            table.pricing { font-size: 10px; }
+            body { padding: 10px; }
+            .container { padding: 14px; border-radius: 6px; }
+            .contract-text { text-align: left; }
+            h2 { font-size: 18px; }
+            h3 { font-size: 14px; }
+            table.header td { display: block; width: 100% !important; text-align: left !important; }
+            table.pricing { display: block; overflow-x: auto; white-space: nowrap; font-size: 10px; }
+            table.pricing th, table.pricing td { padding: 6px; }
+            .buttons { flex-direction: column; }
+            .buttons button { width: 100%; }
+            .modal-content { padding: 24px 16px; margin: 10px; }
+            .modal-content h2 { font-size: 20px; }
+            .modal-content p { font-size: 14px; margin: 14px 0 20px 0; }
+            .btn-telegram { font-size: 15px; padding: 12px; }
+            .signature-wrapper { margin: 14px 0; }
+            canvas { height: 180px; }
+            .contract-text table[style*="border-collapse: collapse"] td {
+                display: block;
+                width: 100% !important;
+                box-sizing: border-box;
+            }
         }
 
         /* Стили для блока подписи */

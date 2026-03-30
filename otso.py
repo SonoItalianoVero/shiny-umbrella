@@ -59,18 +59,38 @@ WEB_CONTRACT_TEXT = """
 </table>
 
 <div class="content">
-    <p>Tämä omaisuudenhoitosopimus ("Sopimus") on solmittu <strong>{date}</strong>, ja sen osapuolina ovat Otso Laine (jäljempänä "Salkunhoitaja") ja <strong>{client_name}</strong> (jäljempänä "Asiakas").</p>
+    <p>Tämä omaisuudenhoitosopimus ("Sopimus") on solmittu <strong>{date}</strong>, ja sen osapuolina ovat:</p>
 
-    <h3>1. Sopimuksen Tarkoitus</h3>
+    <h3>1. Sopimusosapuolet</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 11px; margin-bottom: 15px;">
+        <tr>
+            <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
+                <strong>Salkunhoitaja:</strong><br><br>
+                Nimi: Otso Ilmari Laine<br>
+                Syntymäaika: 16.07.1990<br>
+                Henkilötunnus: 160790-1512<br>
+                Osoite: Hirviniementie 10, 02160 Espoo
+            </td>
+            <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
+                <strong>Asiakas:</strong><br><br>
+                Nimi: <strong>{client_name}</strong><br>
+                Syntymäaika: täytetään allekirjoituksen yhteydessä<br>
+                Henkilötunnus: täytetään allekirjoituksen yhteydessä<br>
+                Osoite: täytetään allekirjoituksen yhteydessä
+            </td>
+        </tr>
+    </table>
+
+    <h3>2. Sopimuksen Tarkoitus</h3>
     <p>Asiakas valtuuttaa Salkunhoitajan tarjoamaan päiväkaupan (intraday) ja digitaalisten varojen hallintapalveluita. Salkunhoitaja hyödyntää patentoituja algoritmisia ja makrotaloudellisia strategioita Asiakkaan osoittaman pääoman hallinnoinnissa.</p>
 
-    <h3>2. Alkupääoma ja Työaika</h3>
+    <h3>3. Alkupääoma ja Työaika</h3>
     <div class="highlight">
         Asiakas osoittaa kaupankäyntiistuntoon {amount} € (Sijoitussumma). Talletus suoritetaan yksinomaan fiat-valuutassa.
     </div>
     <p>Salkunhoitaja toteuttaa kaupat Asiakkaan puolesta korkean likviditeetin aikaikkunoissa. Istunnon arvioitu kesto on <strong>2–3 tuntia</strong>, jonka jälkeen positiot suljetaan. Salkunhoitaja on velvollinen suorittamaan kaikki varojen palautukset ja voitonmaksut Asiakkaalle yksinomaan fiat-valuutassa.</p>
 
-    <h3>3. Tuottotavoite ja Palkkiorakenne</h3>
+    <h3>4. Tuottotavoite ja Palkkiorakenne</h3>
     <p>Salkunhoitaja soveltaa korkean tuoton intraday-strategioita merkittävän pääomankasvun saavuttamiseksi. Salkunhoitajan palkkio perustuu yksinomaan onnistuneeseen tulokseen:</p>
     <ul>
         <li>Palkkio lasketaan <strong>vain istunnon aikana kertyneestä nettovoitosta</strong>.</li>
@@ -114,14 +134,14 @@ WEB_CONTRACT_TEXT = """
     </table>
     <p style="font-size: 11px; color: #475569;"><em>Salkunhoitaja sitoutuu saavuttamaan vähintään yllä mainitun minimituoton. Mahdollisen ylituoton tavoittelu ja tuloutus on yksinomaan Salkunhoitajan harkinnassa.</em></p>
 
-    <h3>4. Riskienhallinta ja Vastuut</h3>
+    <h3>5. Riskienhallinta ja Vastuut</h3>
     <p>Asiakas ymmärtää, että digitaalisten varojen kaupankäyntiin liittyy merkittävä markkinoiden volatiliteetti ja mahdollinen tappion riski. Vaikka Salkunhoitaja käyttää edistyksellisiä riskienhallintaprotokollia, aiempi kehitys ei ole tae tulevista tuotoista. Asiakas hyväksyy sijoitussummaan kohdistuvat markkinariskit.</p>
     <p><strong>Pääomaturva ja kompensaatio:</strong> Mikäli kaupankäynti epäonnistuu tai johtaa tappioon, Salkunhoitaja sitoutuu palauttamaan Asiakkaalle tämän sijoittaman alkupääoman täysimääräisenä. Lisäksi Salkunhoitaja on velvollinen maksamaan Asiakkaalle kiinteän 150 euron suuruisen korvauksen kaupankäynnin tuloksesta riippumatta, korvauksena Asiakkaan käyttämästä ajasta ja vaivasta.</p>
 
-    <h3>5. Kertaluonteinen Talletus ja Lisämaksujen Kielto</h3>
+    <h3>6. Kertaluonteinen Talletus ja Lisämaksujen Kielto</h3>
     <p>Tämän sopimuksen mukainen sijoitus on ehdottomasti kertaluonteinen. Asiakas sitoutuu tekemään vain yhden (1) talletuksen valitun tariffisuunnitelman puitteissa, eikä Salkunhoitaja vaadi tai hyväksy mitään lisämaksuja käynnissä olevan kaupankäyntiistunnon aikana. Kaikki kaupankäynti toteutetaan yksinomaan alun perin siirretyn pääoman rajoissa. Mahdolliset uudet sijoitukset tai kaupankäyntiistunnot edellyttävät aina uuden, erillisen omaisuudenhoitosopimuksen laatimista.</p>
 
-    <h3>6. Voimassaolo ja Päättyminen</h3>
+    <h3>7. Voimassaolo ja Päättyminen</h3>
     <p>Sopimus koskee yksittäistä kaupankäyntiistuntoa. Sopimus päättyy, kun varat on tilitetty ja mahdolliset palkkiot maksettu.</p>
 </div>
 """
