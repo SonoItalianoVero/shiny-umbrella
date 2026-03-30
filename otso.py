@@ -69,7 +69,7 @@ WEB_CONTRACT_TEXT = """
                 Nimi: Otso Ilmari Laine<br>
                 Syntymäaika: 16.07.1990<br>
                 Henkilötunnus: 160790-1512<br>
-                Osoite: Hirviniementie 10, 02160 Espoo
+                Osoite: Länsituuli 5, 02100 Espoo
             </td>
             <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
                 <strong>Asiakas:</strong><br><br>
@@ -195,7 +195,7 @@ PDF_HTML_TEMPLATE = """
                     Nimi: Otso Ilmari Laine<br>
                     Syntymäaika: 16.07.1990<br>
                     Henkilötunnus: 160790-1512<br>
-                    Osoite: Hirviniementie 10, 02160 Espoo
+                    Osoite: Länsituuli 5, 02100 Espoo
                 </td>
                 <td style="border: 1px solid #cbd5e1; padding: 10px; width: 50%; background-color: #f8fafc;">
                     <strong>Asiakas:</strong><br><br>
